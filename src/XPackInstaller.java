@@ -28,6 +28,7 @@ public class XPackInstaller {
             display.setLocationRelativeTo(null);
             display.setVisible(true);
             display.setIconImage(bufferedImage);
+            display.setResizable(false);
         } catch (IOException ex){
             ex.printStackTrace();
         }
