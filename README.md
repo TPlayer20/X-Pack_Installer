@@ -1,2 +1,2 @@
-# X-Pack_Installer
+# X-Pack Installer
 X-Pack Repository Installer.
