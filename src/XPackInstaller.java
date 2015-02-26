@@ -8,11 +8,11 @@ import java.io.InputStream;
 public class XPackInstaller {
 
     public static String selected_url;
-    public static boolean installLauncher;
+    public static boolean installLauncher = false;
     public static String launcher_path;
-    public static int allocatedRAM;
+    public static int allocatedRAM = 2;
     public static int javaVersion = 7;
-    public static boolean canGoFoward;
+    public static boolean canGoForward;
     public static String modpack_path;
     public static String profile;
 
@@ -32,12 +32,6 @@ public class XPackInstaller {
         } catch (IOException ex){
             ex.printStackTrace();
         }
-
-
-
-
-
-
 
     }
 

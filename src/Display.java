@@ -46,6 +46,7 @@ public class Display extends JFrame{
     private JLabel labelInstall;
     private JLabel labelmodpack;
     private JLabel labelLauncher;
+    private JButton wsteczButton;
     private CardLayout cardLayout;
     private int licenseC_count = 0;
     private Display gui = this;
@@ -105,10 +106,10 @@ public class Display extends JFrame{
                         javaversion.setForeground(Color.RED);
                     }
                     if (osarch.getText().equals("TAK") && Ram.getText().equals("TAK") && javaarch.getText().equals("TAK") && (javaversion.getText().equals("TAK") || javaversion.getText().equals("NIE"))){
-                        XPackInstaller.canGoFoward = true;
+                        XPackInstaller.canGoForward = true;
                         button2.setText("Dalej");
                     } else {
-                        XPackInstaller.canGoFoward = false;
+                        XPackInstaller.canGoForward = false;
                         button2.setText("Anuluj");
                     }
                 }
@@ -228,20 +229,26 @@ public class Display extends JFrame{
             javaversion.setForeground(Color.RED);
         }
         if (osarch.getText().equals("TAK") && Ram.getText().equals("TAK") && javaarch.getText().equals("TAK") && (javaversion.getText().equals("TAK") || javaversion.getText().equals("NIE"))){
-            XPackInstaller.canGoFoward = true;
+            XPackInstaller.canGoForward = true;
             button2.setText("Dalej");
         } else {
-            XPackInstaller.canGoFoward = false;
+            XPackInstaller.canGoForward = false;
             button2.setText("Anuluj");
         }
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(XPackInstaller.canGoFoward){
+                if(XPackInstaller.canGoForward){
                     cardLayout.next(panel);
                 } else {
                     System.exit(1);
                 }
+            }
+        });
+        wsteczButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.previous(panel);
             }
         });
 
@@ -266,7 +273,6 @@ public class Display extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.next(panel);
-                setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
                 try {
                     progressBar1.setValue(0);
                     DownloadTask task = new DownloadTask(gui, false, XPackInstaller.selected_url, System.getenv("appdata"));
@@ -294,7 +300,7 @@ public class Display extends JFrame{
                 int max = bar.getMaximum();
                 if(total==max){
                     licenseC_count++;
-                    if (licenseC_count == 3){
+                    if (licenseC_count == 4){
                         licenseC.setEnabled(true);
                     }
                 }
@@ -352,7 +358,6 @@ public class Display extends JFrame{
             }
 
         } else {
-            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             zamknijButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
