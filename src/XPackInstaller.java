@@ -21,7 +21,7 @@ public class XPackInstaller {
             String IMAGE_PATH = "Icon4.png";
             InputStream inputStream = Display.class.getResourceAsStream(IMAGE_PATH);
             BufferedImage bufferedImage = ImageIO.read(inputStream);
-            Utils.Utils.setDensign();
+            Utils.Utils.setDesign();
             Display display = new Display();
             display.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             display.setSize(new Dimension(560, 375));

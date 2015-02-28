@@ -8,7 +8,7 @@ public class ramAmount {
         print("Sprawdzanie wymaganej ilości pamięci RAM.");
         int memoryAmount = Utils.humanReadableRAM();
         int requestedMemory = 4;
-        return requestedMemory < memoryAmount;
+        return requestedMemory <= memoryAmount;
 
     }
 }

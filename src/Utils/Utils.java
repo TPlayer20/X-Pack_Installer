@@ -23,7 +23,7 @@ public class Utils {
 
     }
 
-    public static void setDensign(){
+    public static void setDesign(){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e) {
