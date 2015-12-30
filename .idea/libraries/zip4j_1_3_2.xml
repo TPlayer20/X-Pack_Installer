@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="zip4j_1.3.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../Libraries/zip4j_1.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/json-simple-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/guava-18.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/commons-io-2.4-bin/commons-io-2.4/commons-io-2.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

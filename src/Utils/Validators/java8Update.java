@@ -3,6 +3,7 @@ import Utils.Reference;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import static Utils.Utils.print;
 
@@ -10,15 +11,17 @@ public class java8Update {
     public static int check(){
         print("Sprawdzanie wersji JRE.");
         try {
-            URL updateService = new URL(Reference.PROTOCOL, Reference.UPDATE_HOST, Reference.PORT, Reference.JAVA_UPDATE);
-            String update = new Scanner(updateService.openStream(), "UTF-8").nextLine();
+            URL updateServer = new URL("http://xpack.pl/java8version.txt");
+            Scanner scanner = new Scanner(updateServer.openStream(), "UTF-8");
+            String temp = scanner.nextLine();
+            StringTokenizer tokenizer = new StringTokenizer(temp, " =");
+            tokenizer.nextToken();
+            int update = Integer.parseInt(tokenizer.nextToken());
             String local = System.getProperty("java.version");
-            String[] updateArray = update.split("_", 2);
-            String[] localArray = local.split("_", 2);
-            int localNumber = Integer.parseInt(localArray[1]);
-            int updateNumber = Integer.parseInt(updateArray[1]);
-            if(localArray[0].equals(updateArray[0])){
-                if(updateNumber == localNumber ){ return 0;} else if( localNumber >= 25 && localNumber < updateNumber ) { return 1; } else if( localNumber < updateNumber) {return 2;}
+            String[] data = local.split("_");
+            int localNumber = Integer.parseInt(data[1]);
+            if(data[0].equals("1.8.0")){
+                if(update == localNumber ){ return 0;} else if( localNumber >= 25 && localNumber < update ) { return 1; } else if( localNumber < update) {return 2;}
             } else {
                 return 2;
             }

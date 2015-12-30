@@ -1,5 +1,3 @@
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,12 +14,12 @@ public class DownloadTask extends SwingWorker<Void, Void> {
     private static final int BUFFER_SIZE = 4096;
     private String downloadURL;
     private String saveDirectory;
-    private boolean Launcher;
+    private String type;
     private Display gui;
 
-    public DownloadTask(Display gui, boolean Launcher, String downloadURL, String saveDirectory) {
+    public DownloadTask(Display gui, String type, String downloadURL, String saveDirectory) {
         this.gui = gui;
-        this.Launcher = Launcher;
+        this.type = type;
         this.downloadURL = downloadURL;
         this.saveDirectory = saveDirectory;
     }
@@ -35,12 +33,8 @@ public class DownloadTask extends SwingWorker<Void, Void> {
             HTTPDownloadUtil util = new HTTPDownloadUtil();
             util.downloadFile(downloadURL);
 
-            if(!Launcher){
-                XPackInstaller.modpack_path = System.getenv("appdata") + System.getProperty("file.separator") + util.getFileName();
-                File oldOne = new File(XPackInstaller.modpack_path);
-                if (oldOne.exists()){
-                    FileUtils.forceDelete(oldOne);
-                }
+            if(type.equals("pack")){
+                XPackInstaller.modpack_path = System.getenv("appdata") + System.getProperty("file.separator") +  "XPackInstaller" + System.getProperty("file.separator") + util.getFileName();
             }
 
             String saveFilePath = saveDirectory + File.separator + util.getFileName();
@@ -81,9 +75,9 @@ public class DownloadTask extends SwingWorker<Void, Void> {
     @Override
     protected void done() {
         if (!isCancelled()) {
-            if(!Launcher){
+            if(type.equals("pack")){
                 gui.changeAfterModpack();
-            } else {
+            } else if (type.equals("launcher")){
                 gui.changeAfterLauncher();
             }
 

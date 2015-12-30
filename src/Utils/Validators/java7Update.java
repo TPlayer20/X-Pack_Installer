@@ -11,7 +11,7 @@ public class java7Update {
             URL updateServer = new URL("http://xpack.pl/javaversion.txt");
             Scanner scanner = new Scanner(updateServer.openStream(), "UTF-8");
             String temp = scanner.nextLine();
-            StringTokenizer tokenizer = new StringTokenizer(temp, " = ");
+            StringTokenizer tokenizer = new StringTokenizer(temp, " =");
             tokenizer.nextToken();
             int update = Integer.parseInt(tokenizer.nextToken());
             String local = System.getProperty("java.version");

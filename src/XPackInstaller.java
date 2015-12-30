@@ -11,10 +11,11 @@ public class XPackInstaller {
     public static boolean installLauncher = false;
     public static String launcher_path;
     public static int allocatedRAM = 2;
-    public static int javaVersion = 7;
+    public static int javaVersion = 8;
     public static boolean canGoForward;
     public static String modpack_path;
     public static String profile;
+    public static boolean canAcceptOptional = false;
 
     public static void main(String[] args){
         try {
@@ -24,7 +25,7 @@ public class XPackInstaller {
             Utils.Utils.setDesign();
             Display display = new Display();
             display.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            display.setSize(new Dimension(560, 375));
+            display.setSize(new Dimension(560, 400));
             display.setLocationRelativeTo(null);
             display.setVisible(true);
             display.setIconImage(bufferedImage);

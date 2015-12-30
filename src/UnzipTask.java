@@ -90,6 +90,15 @@ public class UnzipTask extends SwingWorker<Void, Void> {
                 FileWriter fileWriter = new FileWriter(file, false);
                 fileWriter.write(objecthead.toJSONString());
                 fileWriter.close();
+                File mainDir = new File(System.getenv("appdata") + File.separator + "XPackInstaller");
+                File optionalDir = new File(mainDir.getAbsolutePath() + File.separator + "OptionalMods");
+                File outDir = new File(System.getenv("appdata") + File.separator + ".minecraft" + File.separator + "mods");
+                File[] fileList = optionalDir.listFiles();
+                if (fileList != null && fileList.length != 0){
+                    for(File x: fileList){
+                        FileUtils.copyFileToDirectory(x, outDir);
+                    }
+                }
                 setProgress(100);
                 gui.changeAfterModpackInstall();
             } catch (IOException e){
