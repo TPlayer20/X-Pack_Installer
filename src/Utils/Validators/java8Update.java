@@ -1,5 +1,4 @@
 package Utils.Validators;
-import Utils.Reference;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
@@ -21,7 +20,7 @@ public class java8Update {
             String[] data = local.split("_");
             int localNumber = Integer.parseInt(data[1]);
             if(data[0].equals("1.8.0")){
-                if(update == localNumber ){ return 0;} else if( localNumber >= 25 && localNumber < update ) { return 1; } else if( localNumber < update) {return 2;}
+                if(localNumber >= update){ return 0;} else if( localNumber >= 25 && localNumber < update ) { return 1; } else if( localNumber < update) {return 2;}
             } else {
                 return 2;
             }
