@@ -194,7 +194,7 @@ public class Display extends JFrame{
                 if(osarch.getText().equals("NIE") && Ram.getText().equals("TAK") && javaarch.getText().equals("NIE") && (javaversion.getText().equals("TAK") || javaversion.getText().equals("NIE"))){
                     XPackInstaller.canGoForward = false;
                     button2.setText("Anuluj");
-                    JOptionPane.showMessageDialog(gui, "Prosimy sprawdzi\u0107 czy na komputerze nie ma zainstalowanych dw\u00f3ch \u015brodowisk Java: w wersji 32-bitowej i 64-bitowej. Je\u015bli zainstalowane s\u0105 obie wersje prosimy o odinstalowanie wersji 32-bitowej. To rozwi\u0105\u017ce problem.", "B\u0142\u0105d konfiguracji Javy", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(gui, "Prosimy sprawdzi\u0107 czy na komputerze nie ma zainstalowanych dw\u00f3ch \u015brodowisk Java: w wersji 32-bitowej i 64-bitowej.\nJe\u015bli zainstalowane s\u0105 obie wersje prosimy o odinstalowanie wersji 32-bitowej. To rozwi\u0105\u017ce problem.", "B\u0142\u0105d konfiguracji Javy", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
