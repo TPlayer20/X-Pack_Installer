@@ -7,15 +7,17 @@ import java.io.InputStream;
 
 public class XPackInstaller {
 
-    public static String selected_url;
-    public static boolean installLauncher = false;
-    public static String launcher_path;
-    public static int allocatedRAM = 2;
-    public static int javaVersion = 8;
-    public static boolean canGoForward;
-    public static String modpack_path;
-    public static String profile;
-    public static boolean canAcceptOptional = false;
+    static String selected_url;
+    static boolean installLauncher = false;
+    static String launcher_path;
+    static int allocatedRAM = 2;
+    static int javaVersion = 8;
+    static boolean canGoForward;
+    static String modpack_path;
+    static String profile;
+    static String urlOptifine;
+    static String urlMoC;
+    static String urlCMS;
 
     public static void main(String[] args){
         try {

@@ -11,14 +11,14 @@ public class Utils {
 
     public static void print(Object x){
 
-        System.out.println(getCurrentTime("'['HH:mm:ss']' ") +x);
+        System.out.println(getCurrentTime() +x);
 
     }
 
-    public static String getCurrentTime(String format){
+    private static String getCurrentTime(){
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("'['HH:mm:ss']' ");
         return simpleDateFormat.format(calendar.getTime());
 
     }

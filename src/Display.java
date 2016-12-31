@@ -45,6 +45,10 @@ public class Display extends JFrame{
     private JCheckBox checkOptifine;
     private JCheckBox zainstalujMoCreaturesCheckBox;
     private JLabel optionalText;
+    private JButton caseOS;
+    private JButton caseRAM;
+    private JButton caseJRE;
+    private JButton caseVERSION;
     private CardLayout cardLayout;
     private Display gui = this;
     private int optifineProgress = 0;
@@ -68,16 +72,25 @@ public class Display extends JFrame{
             XPackInstaller.selected_url = nameObject1.get("url").toString();
             XPackInstaller.javaVersion = Integer.parseInt(nameObject1.get("version").toString());
             XPackInstaller.profile = nameObject1.get("profile").toString();
-            XPackInstaller.canAcceptOptional = Boolean.parseBoolean(nameObject1.get("canAcceptOptional").toString());
-            if(!XPackInstaller.canAcceptOptional){
-                checkOptifine.setEnabled(false);
-                checkOptifine.setSelected(false);
-                zainstalujMoCreaturesCheckBox.setEnabled(false);
+            XPackInstaller.urlOptifine = nameObject1.get("url_optifine").toString();
+            XPackInstaller.urlMoC = nameObject1.get("url_moc").toString();
+            XPackInstaller.urlCMS = nameObject1.get("url_cms").toString();
+            //System.out.println("\n" + "NAME: " + nameObject1.get("name").toString() + "\n" + "JAVA: " + XPackInstaller.javaVersion + "\n" + "URL: " + XPackInstaller.selected_url + "\n" + "OPTIFINE: " + XPackInstaller.urlOptifine + "\n" +  "CMS: " + XPackInstaller.urlCMS + "\n" + "MOC: " + XPackInstaller.urlMoC);
+            if(XPackInstaller.urlCMS.equals("disable")||XPackInstaller.urlMoC.equals("disable")){
                 zainstalujMoCreaturesCheckBox.setSelected(false);
-                optionalText.setEnabled(false);
+                zainstalujMoCreaturesCheckBox.setEnabled(false);
+            } else {
+                zainstalujMoCreaturesCheckBox.setEnabled(true);
+            }
+            if(XPackInstaller.urlOptifine.equals("disable")){
+                checkOptifine.setSelected(false);
+                checkOptifine.setEnabled(false);
             } else {
                 checkOptifine.setEnabled(true);
-                zainstalujMoCreaturesCheckBox.setEnabled(true);
+            }
+            if(XPackInstaller.urlOptifine.equals("disable")&&(XPackInstaller.urlMoC.equals("disable")||XPackInstaller.urlCMS.equals("disable"))){
+                optionalText.setEnabled(false);
+            } else {
                 optionalText.setEnabled(true);
             }
             for (Object anArray : array) {
@@ -85,23 +98,34 @@ public class Display extends JFrame{
             }
             comboBox1.addActionListener(e -> {
                 int i = 0;
+                JSONObject nameObject;
+                String name1;
                 while(true){
-                    JSONObject nameObject = (JSONObject) array.get(i);
-                    String name1 = nameObject.get("name").toString();
+                    nameObject = (JSONObject) array.get(i);
+                    name1 = nameObject.get("name").toString();
                     if(name1 ==comboBox1.getSelectedItem()){
-                        XPackInstaller.canAcceptOptional = Boolean.parseBoolean(nameObject.get("canAcceptOptional").toString());
+                        XPackInstaller.urlOptifine = nameObject.get("url_optifine").toString();
+                        XPackInstaller.urlMoC = nameObject.get("url_moc").toString();
+                        XPackInstaller.urlCMS = nameObject.get("url_cms").toString();
                         XPackInstaller.selected_url = nameObject.get("url").toString();
                         XPackInstaller.javaVersion = Integer.parseInt(nameObject.get("version").toString());
                         XPackInstaller.profile = nameObject.get("profile").toString();
-                        if(!XPackInstaller.canAcceptOptional){
-                            checkOptifine.setEnabled(false);
-                            checkOptifine.setSelected(false);
-                            zainstalujMoCreaturesCheckBox.setEnabled(false);
+                        //System.out.println( "\n" + "NAME: " + nameObject.get("name").toString() + "\n" + "JAVA: " + XPackInstaller.javaVersion + "\n" + "URL: " + XPackInstaller.selected_url + "\n" + "OPTIFINE: " + XPackInstaller.urlOptifine + "\n" +  "CMS: " + XPackInstaller.urlCMS + "\n" + "MOC: " + XPackInstaller.urlMoC);
+                        if(XPackInstaller.urlCMS.equals("disable")||XPackInstaller.urlMoC.equals("disable")){
                             zainstalujMoCreaturesCheckBox.setSelected(false);
-                            optionalText.setEnabled(false);
+                            zainstalujMoCreaturesCheckBox.setEnabled(false);
+                        } else {
+                            zainstalujMoCreaturesCheckBox.setEnabled(true);
+                        }
+                        if(XPackInstaller.urlOptifine.equals("disable")){
+                            checkOptifine.setSelected(false);
+                            checkOptifine.setEnabled(false);
                         } else {
                             checkOptifine.setEnabled(true);
-                            zainstalujMoCreaturesCheckBox.setEnabled(true);
+                        }
+                        if(XPackInstaller.urlOptifine.equals("disable")&&(XPackInstaller.urlMoC.equals("disable")||XPackInstaller.urlCMS.equals("disable"))){
+                            optionalText.setEnabled(false);
+                        } else {
                             optionalText.setEnabled(true);
                         }
                         break;
@@ -115,12 +139,18 @@ public class Display extends JFrame{
                     javaStatus = java7Update;
                 }
                 if (javaStatus == 0){
+                    caseVERSION.setEnabled(false);
+                    caseVERSION.setVisible(false);
                     javaversion.setText("TAK");
                     javaversion.setForeground(Reference.COLOR_DARK_GREEN);
                 } else if (javaStatus == 1) {
+                    caseVERSION.setEnabled(true);
+                    caseVERSION.setEnabled(true);
                     javaversion.setText("NIE");
                     javaversion.setForeground(Reference.COLOR_DARK_ORANGE);
                 } else if (javaStatus == 2){
+                    caseVERSION.setEnabled(true);
+                    caseVERSION.setVisible(true);
                     if(XPackInstaller.javaVersion == 8){
                         javaversion.setText("Nie posiadasz JRE8 w wersji 25 lub nowszej!");
                     } else {
@@ -141,7 +171,11 @@ public class Display extends JFrame{
         } catch (IOException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(panel, "Brak połączenia z Internetem!", "Błąd", JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
+            System.exit(1);
+        } catch (NullPointerException ex){
+            Utils.Utils.print("B\u0142\u0105d krytyczny, odczyt pliku nie jest mo\u017cliwy.");
+            JOptionPane.showMessageDialog(null, ex.getStackTrace(), "BŁĄD KRYTYCZNY", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
         }
 
         pobierzOryginalnyLauncherMCCheckBox.addActionListener(e -> {
@@ -194,29 +228,41 @@ public class Display extends JFrame{
                 if(osarch.getText().equals("NIE") && Ram.getText().equals("TAK") && javaarch.getText().equals("NIE") && (javaversion.getText().equals("TAK") || javaversion.getText().equals("NIE"))){
                     XPackInstaller.canGoForward = false;
                     button2.setText("Anuluj");
-                    JOptionPane.showMessageDialog(gui, "Prosimy sprawdzi\u0107 czy na komputerze nie ma zainstalowanych dw\u00f3ch \u015brodowisk Java: w wersji 32-bitowej i 64-bitowej.\nJe\u015bli zainstalowane s\u0105 obie wersje prosimy o odinstalowanie wersji 32-bitowej. To rozwi\u0105\u017ce problem.", "B\u0142\u0105d konfiguracji Javy", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(gui, "Prosimy sprawdzi\u0107 czy na komputerze nie ma zainstalowanych dw\u00f3ch \u015brodowisk Java: w wersji 32-bitowej i 64-bitowej.\nJe\u015bli zainstalowane s\u0105 obie wersje prosimy o odinstalowanie wersji 32-bitowej. To rozwi\u0105\u017ce problem.", "B\u0142\u0105d konfiguracji Javy", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
         if (Utils.Validators.systemArchitecture.check()){
+            caseOS.setEnabled(false);
+            caseOS.setVisible(false);
             osarch.setText("TAK");
             osarch.setForeground(Reference.COLOR_DARK_GREEN);
         } else {
+            caseOS.setEnabled(true);
+            caseOS.setVisible(true);
             osarch.setText("NIE");
             osarch.setForeground(Color.RED);
         }
         if (Utils.Validators.ramAmount.check()){
+            caseRAM.setEnabled(false);
+            caseRAM.setVisible(false);
             Ram.setText("TAK");
             Ram.setForeground(Reference.COLOR_DARK_GREEN);
         } else {
+            caseRAM.setEnabled(true);
+            caseRAM.setVisible(true);
             Ram.setText("NIE");
             Ram.setForeground(Color.RED);
         }
         if (Utils.Validators.javaArchitecture.check()){
+            caseJRE.setEnabled(false);
+            caseJRE.setVisible(false);
             javaarch.setText("TAK");
             javaarch.setForeground(Reference.COLOR_DARK_GREEN);
         } else {
+            caseJRE.setEnabled(true);
+            caseJRE.setVisible(true);
             javaarch.setText("NIE");
             javaarch.setForeground(Color.RED);
         }
@@ -229,16 +275,22 @@ public class Display extends JFrame{
         }
 
         if (javaStatus == 0){
+            caseVERSION.setEnabled(false);
+            caseVERSION.setVisible(false);
             javaversion.setText("TAK");
             javaversion.setForeground(Reference.COLOR_DARK_GREEN);
         } else if (javaStatus == 1) {
+            caseVERSION.setEnabled(true);
+            caseVERSION.setEnabled(true);
             javaversion.setText("NIE");
             javaversion.setForeground(Reference.COLOR_DARK_ORANGE);
         } else if (javaStatus == 2){
+            caseVERSION.setEnabled(true);
+            caseVERSION.setVisible(true);
             javaversion.setText("Nie posiadasz najnowszej wersji JRE!");
             javaversion.setForeground(Color.RED);
         }
-        if (osarch.getText().equals("TAK") && Ram.getText().equals("TAK") && javaarch.getText().equals("TAK") && (javaversion.getText().equals("TAK") || javaversion.getText().equals("NIE"))){
+        if (osarch.getText().equals("TAK") && Ram.getText().equals("TAK") && javaarch.getText().equals("TAK") && ((javaversion.getText().equals("TAK") || javaversion.getText().equals("NIE")))){
             XPackInstaller.canGoForward = true;
             button2.setText("Dalej");
         } else {
@@ -258,7 +310,7 @@ public class Display extends JFrame{
         } catch (IOException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(panel, "Brak połączenia z Internetem!", "Błąd", JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
+            System.exit(1);
         }
         licenseC.addActionListener(e -> {
             if (licenseC.isSelected()) {
@@ -294,7 +346,7 @@ public class Display extends JFrame{
                 try {
                     progressBar1.setValue(0);
                     if(checkOptifine.isSelected() && zainstalujMoCreaturesCheckBox.isSelected()){
-                        DownloadTask task2 = new DownloadTask(gui, "mod", Reference.downloadOptifine, optionalDir.getAbsolutePath());
+                        DownloadTask task2 = new DownloadTask(gui, "mod", XPackInstaller.urlOptifine, optionalDir.getAbsolutePath());
                         task2.addPropertyChangeListener(evt -> {
                             if(evt.getPropertyName().equals("progress")){
                                 labelmodpack.setText("Pobieranie Optifine HD w toku...");
@@ -305,7 +357,7 @@ public class Display extends JFrame{
                         });
                         task2.execute();
                     } else if (checkOptifine.isSelected()) {
-                        DownloadTask task2 = new DownloadTask(gui, "mod", Reference.downloadOptifine, optionalDir.getAbsolutePath());
+                        DownloadTask task2 = new DownloadTask(gui, "mod", XPackInstaller.urlOptifine, optionalDir.getAbsolutePath());
                         task2.addPropertyChangeListener(evt -> {
                             if(evt.getPropertyName().equals("progress")){
                                 labelmodpack.setText("Pobieranie Optifine HD w toku...");
@@ -326,6 +378,7 @@ public class Display extends JFrame{
             });
         } catch (IOException e){
             e.printStackTrace();
+
         }
 
         final JScrollBar bar = scrollPane1.getVerticalScrollBar();
@@ -380,12 +433,50 @@ public class Display extends JFrame{
         panel.add(panel2);
         panel.add(panel4);
         add(panel);
+
+        //PANEL WERFIKUJACY ACTION LISTNERES
+        caseOS.addActionListener(e -> JOptionPane.showMessageDialog(panel,
+                "W przypadku niezgodno\u015bci architektury systemu operacyjnego nale\u017cy:\n" +
+                        "- zmieni\u0107 system operacyjny (je\u015bli faktycznie posiada si\u0119 wersj\u0119 inn\u0105 ni\u017c 64-bitow\u0105),\n" +
+                        "- zweryfikowa\u0107 czy przypadkowo na komputerze nie ma dw\u00f3ch \u015brodowisk Java: w wersji 32 i 64-bitowej. \n" +
+                        "   Instalacja JRE w dw\u00f3ch wersjach powoduje problem z identyfikacj\u0105 architektury systemu operacyjnego.",
+                "B\u0142\u0105d Systemu Operacyjnego",
+                JOptionPane.ERROR_MESSAGE));
+        caseRAM.addActionListener(e -> JOptionPane.showMessageDialog(panel,
+                "W przypadku posiadania zbyt ma\u0142ej ilo\u015bci pami\u0119ci RAM nale\u017cy:\n" +
+                        "- sprawdzi\u0107 czy na komputerze zainstalowany jest 64-bitowy system operacyjny (dla komputer\u00f3w posiadaj\u0105cych 4GB pami\u0119ci lub wi\u0119cej). \n" +
+                        "   Architektura 32-bitowa wymusza na systemie posiadanie maksymalnie oko\u0142o 3.25GB pami\u0119ci RAM,\n" +
+                        "- zwi\u0119kszy\u0107 ilo\u015bc fizycznej pami\u0119ci RAM.",
+                "B\u0142\u0105d Pami\u0119ci RAM",
+                JOptionPane.ERROR_MESSAGE));
+        caseJRE.addActionListener(e -> JOptionPane.showMessageDialog(panel,
+                "W przypadku nie posiadania 64-bitowej architektury \u015brodowiska Java nale\u017cy:\n" +
+                        "- zweryfikowa\u0107 czy przypadkowo na komputerze nie ma dw\u00f3ch \u015brodowisk Java: w wersji 32 i 64-bitowej. \n" +
+                        "   Instalacja JRE w dw\u00f3ch wersjach powoduje problem z identyfikacj\u0105 architektury \u015brodowiska,\n" +
+                        "- zweryfikowa\u0107 czy na komputerze zainstalowany jest system operacyjny w wersji 64-bitowej,\n" +
+                        "- zainstalowa\u0107 najnowsze \u015brodowisko Java 8.",
+                "B\u0142\u0105d \u015arodowiska Javy",
+                JOptionPane.ERROR_MESSAGE));
+        caseVERSION.addActionListener(e -> {
+            if(javaversion.getText().equals("NIE")){
+                JOptionPane.showMessageDialog(panel,
+                        "Znaleziono \u015brodowisko Java 8, ale nie jest ono w najnowszej dost\u0119pnej wersji. Zalecamy aktualizacj\u0119.",
+                        "Ostrze\u017cenie",
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(panel,
+                        "Nie znaleziono \u015brodowiska Java 8 w wersji 25 lub nowszej.\n" +
+                                "Nale\u017cy zainstalowa\u0107 najnowsz\u0105 (najlepiej) Jav\u0119 8.",
+                        "B\u0142\u0105d Wersji Javy",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 
     private void task3(){
         File mainDir = new File(System.getenv("appdata") + File.separator + "XPackInstaller");
         File optionalDir = new File(mainDir.getAbsolutePath() + File.separator + "OptionalMods");
-        DownloadTask task3 = new DownloadTask(gui, "mod", Reference.downloadMoC, optionalDir.getAbsolutePath());
+        DownloadTask task3 = new DownloadTask(gui, "mod", XPackInstaller.urlMoC, optionalDir.getAbsolutePath());
         task3.addPropertyChangeListener(evt -> {
             if(evt.getPropertyName().equals("progress")){
                 if(task3.isDone()){task4();}
@@ -399,7 +490,7 @@ public class Display extends JFrame{
     private void task4(){
         File mainDir = new File(System.getenv("appdata") + File.separator + "XPackInstaller");
         File optionalDir = new File(mainDir.getAbsolutePath() + File.separator + "OptionalMods");
-        DownloadTask task4 = new DownloadTask(gui, "mod", Reference.downloadCMS, optionalDir.getAbsolutePath());
+        DownloadTask task4 = new DownloadTask(gui, "mod", XPackInstaller.urlMoC, optionalDir.getAbsolutePath());
         task4.addPropertyChangeListener(evt -> {
             if(evt.getPropertyName().equals("progress")){
                 labelmodpack.setText("Pobieranie Custom Mob Spawner w toku...");

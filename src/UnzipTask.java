@@ -12,7 +12,7 @@ public class UnzipTask extends SwingWorker<Void, Void> {
 
     private Display gui;
 
-    public UnzipTask(Display gui){
+    UnzipTask(Display gui){
         this.gui = gui;
     }
 

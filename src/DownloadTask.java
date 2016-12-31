@@ -5,11 +5,6 @@ import java.io.InputStream;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
-/**
- * Execute file download in a background thread and update the progress.
- * @author www.codejava.net
- *
- */
 public class DownloadTask extends SwingWorker<Void, Void> {
     private static final int BUFFER_SIZE = 4096;
     private String downloadURL;
@@ -17,16 +12,13 @@ public class DownloadTask extends SwingWorker<Void, Void> {
     private String type;
     private Display gui;
 
-    public DownloadTask(Display gui, String type, String downloadURL, String saveDirectory) {
+    DownloadTask(Display gui, String type, String downloadURL, String saveDirectory) {
         this.gui = gui;
         this.type = type;
         this.downloadURL = downloadURL;
         this.saveDirectory = saveDirectory;
     }
 
-    /**
-     * Executed in background thread
-     */
     @Override
     protected Void doInBackground() throws Exception {
         try {
@@ -69,9 +61,7 @@ public class DownloadTask extends SwingWorker<Void, Void> {
         return null;
     }
 
-    /**
-     * Executed in Swing's event dispatching thread
-     */
+
     @Override
     protected void done() {
         if (!isCancelled()) {

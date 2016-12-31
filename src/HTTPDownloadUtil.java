@@ -3,32 +3,16 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * A utility that downloads a file from a URL.
- *
- * @author www.codejava.net
- *
- */
-public class HTTPDownloadUtil {
+class HTTPDownloadUtil {
 
     private HttpURLConnection httpConn;
 
-    /**
-     * hold input stream of HttpURLConnection
-     */
     private InputStream inputStream;
 
     private String fileName;
     private int contentLength;
 
-    /**
-     * Downloads a file from a URL
-     *
-     * @param fileURL
-     *            HTTP URL of the file to be downloaded
-     * @throws IOException
-     */
-    public void downloadFile(String fileURL) throws IOException {
+    void downloadFile(String fileURL) throws IOException {
         URL url = new URL(fileURL);
         httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
@@ -60,20 +44,20 @@ public class HTTPDownloadUtil {
         }
     }
 
-    public void disconnect() throws IOException {
+    void disconnect() throws IOException {
         inputStream.close();
         httpConn.disconnect();
     }
 
-    public String getFileName() {
+    String getFileName() {
         return this.fileName;
     }
 
-    public int getContentLength() {
+    int getContentLength() {
         return this.contentLength;
     }
 
-    public InputStream getInputStream() {
+    InputStream getInputStream() {
         return this.inputStream;
     }
 }
